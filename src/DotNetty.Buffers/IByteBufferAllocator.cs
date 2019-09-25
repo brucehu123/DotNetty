@@ -4,7 +4,7 @@
 namespace DotNetty.Buffers
 {
     /// <summary>
-    ///     Thread-safe interface for allocating <see cref="IByteBuffer" /> instances for use inside Helios reactive I/O
+    ///     Thread-safe interface for allocating <see cref="IByteBuffer" />/.
     /// </summary>
     public interface IByteBufferAllocator
     {
@@ -14,8 +14,32 @@ namespace DotNetty.Buffers
 
         IByteBuffer Buffer(int initialCapacity, int maxCapacity);
 
+        IByteBuffer HeapBuffer();
+
+        IByteBuffer HeapBuffer(int initialCapacity);
+
+        IByteBuffer HeapBuffer(int initialCapacity, int maxCapacity);
+
+        IByteBuffer DirectBuffer();
+
+        IByteBuffer DirectBuffer(int initialCapacity);
+
+        IByteBuffer DirectBuffer(int initialCapacity, int maxCapacity);
+
         CompositeByteBuffer CompositeBuffer();
 
         CompositeByteBuffer CompositeBuffer(int maxComponents);
+
+        CompositeByteBuffer CompositeHeapBuffer();
+
+        CompositeByteBuffer CompositeHeapBuffer(int maxComponents);
+
+        CompositeByteBuffer CompositeDirectBuffer();
+
+        CompositeByteBuffer CompositeDirectBuffer(int maxComponents);
+
+        bool IsDirectBufferPooled { get; }
+
+        int CalculateNewCapacity(int minNewCapacity, int maxCapacity);
     }
 }

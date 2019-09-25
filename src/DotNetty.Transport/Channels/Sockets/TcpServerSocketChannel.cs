@@ -16,7 +16,7 @@ namespace DotNetty.Transport.Channels.Sockets
     public class TcpServerSocketChannel : AbstractSocketChannel, IServerSocketChannel
     {
         static readonly IInternalLogger Logger = InternalLoggerFactory.GetInstance<TcpServerSocketChannel>();
-        static readonly ChannelMetadata METADATA = new ChannelMetadata(false, 16);
+        static readonly ChannelMetadata METADATA = new ChannelMetadata(false);
 
         static readonly Action<object, object> ReadCompletedSyncCallback = OnReadCompletedSync;
 
@@ -95,12 +95,9 @@ namespace DotNetty.Transport.Channels.Sockets
                     }
                     return;
                 }
-                catch (SocketException ex) when (ex.SocketErrorCode == SocketError.OperationAborted)
+                catch (SocketException ex) when (ex.SocketErrorCode == SocketError.OperationAborted || ex.SocketErrorCode == SocketError.InvalidArgument)
                 {
                     closed = true;
-                }
-                catch (SocketException ex) when (ex.SocketErrorCode == SocketError.WouldBlock)
-                {
                 }
                 catch (SocketException ex)
                 {
@@ -120,7 +117,7 @@ namespace DotNetty.Transport.Channels.Sockets
             }
             if (closed && this.Open)
             {
-                this.Unsafe.CloseAsync();
+                this.Unsafe.CloseSafe();
             }
         }
 
@@ -183,8 +180,8 @@ namespace DotNetty.Transport.Channels.Sockets
                     try
                     {
                         connectedSocket = operation.AcceptSocket;
-                        operation.Validate();
                         operation.AcceptSocket = null;
+                        operation.Validate();
 
                         var message = this.PrepareChannel(connectedSocket);
                         
@@ -211,7 +208,7 @@ namespace DotNetty.Transport.Channels.Sockets
                             allocHandle.IncMessagesRead(1);
                         }
                     }
-                    catch (SocketException ex) when (ex.SocketErrorCode == SocketError.OperationAborted)
+                    catch (SocketException ex) when (ex.SocketErrorCode == SocketError.OperationAborted || ex.SocketErrorCode == SocketError.InvalidArgument)
                     {
                         closed = true;
                     }
@@ -246,7 +243,7 @@ namespace DotNetty.Transport.Channels.Sockets
 
                     if (closed && ch.Open)
                     {
-                        this.CloseAsync();
+                        this.CloseSafe();
                     }
                 }
                 finally

@@ -3,10 +3,12 @@
 
 namespace DotNetty.Transport.Channels
 {
+    using System.Threading.Tasks;
     using DotNetty.Common.Concurrency;
 
+    /// <inheritdoc />
     /// <summary>
-    /// <see cref="IEventExecutorGroup"/> specialized for handling <see cref="IEventLoop"/>s.
+    /// <see cref="IEventExecutorGroup" /> specialized for handling <see cref="IEventLoop" />s.
     /// </summary>
     public interface IEventLoopGroup : IEventExecutorGroup
     {
@@ -14,5 +16,12 @@ namespace DotNetty.Transport.Channels
         /// Returns <see cref="IEventLoop"/>.
         /// </summary>
         new IEventLoop GetNext();
+
+        /// <summary>
+        /// Register the <see cref="IChannel"/> for this event loop.
+        /// </summary>
+        /// <param name="channel">The <see cref="IChannel"/> to register.</param>
+        /// <returns>The register task.</returns>
+        Task RegisterAsync(IChannel channel);
     }
 }

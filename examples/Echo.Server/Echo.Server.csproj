@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp1.1;net451</TargetFrameworks>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">1.6.1</NetStandardImplicitPackageVersion>
+    <TargetFrameworks>netcoreapp2.0;net451</TargetFrameworks>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">1.6.1</NetStandardImplicitPackageVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net451' ">
@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\src\DotNetty.Codecs\DotNetty.Codecs.csproj" />
     <ProjectReference Include="..\..\src\DotNetty.Common\DotNetty.Common.csproj" />
     <ProjectReference Include="..\..\src\DotNetty.Handlers\DotNetty.Handlers.csproj" />
+    <ProjectReference Include="..\..\src\DotNetty.Transport.Libuv\DotNetty.Transport.Libuv.csproj" />
     <ProjectReference Include="..\..\src\DotNetty.Transport\DotNetty.Transport.csproj" />
     <ProjectReference Include="..\Examples.Common\Examples.Common.csproj" />
   </ItemGroup>
